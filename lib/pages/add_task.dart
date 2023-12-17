@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
-import 'package:list_it/Components/my_button.dart';
 import 'package:list_it/Components/radio_widget.dart';
 import 'package:list_it/Components/date_time_widget.dart';
 import 'package:list_it/provider/date_time_provider.dart';
@@ -155,14 +154,11 @@ class AddTask extends ConsumerWidget {
                         child: const Text ('Add'),)
                       )
                     ],
-                  )
-
+                  ),
                 ],
-              
               ),
             )
           ),
-          
         )
       )
     );
