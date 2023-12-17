@@ -1,7 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:list_it/Components/to_do_card.dart';
 import 'package:list_it/pages/about_page.dart';
 import 'package:list_it/pages/add_task.dart';
 import 'package:list_it/pages/terms_and_condition.dart';
@@ -170,31 +168,6 @@ void signUserOut() {
                       
                     ],
                   ),
-
-                  const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    child: ToDoCard(
-                      title: 'go to gym',
-                      check: true,
-                      time: '12:00',
-                      borderColor: Colors.yellow,
-                    ),
-                    
-                  ),
-                  const SizedBox(height: 10),
-                  
-                  const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    child: ToDoCard(
-                      title: 'Study',
-                      check: false,
-                      time: '14:00',
-                      borderColor: Colors.blue,
-
-                    ),
-                    
-                  ),
-                  const SizedBox(height: 10)
 
                 ],
               ),
