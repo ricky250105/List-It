@@ -30,7 +30,7 @@ class DateTimeWidget extends ConsumerWidget {
                 ),
                 child: InkWell(
                   borderRadius: BorderRadius.circular(10),
-                  onTap: () {onTapPicker;},
+                  onTap: onTapPicker,
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
                     decoration: BoxDecoration(

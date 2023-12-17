@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
+import 'package:intl/intl.dart';
 import 'package:list_it/Components/my_button.dart';
 import 'package:list_it/Components/radio_widget.dart';
 import 'package:list_it/Components/date_time_widget.dart';
@@ -101,7 +102,10 @@ class AddTask extends ConsumerWidget {
                             firstDate: DateTime(2020), 
                             lastDate: DateTime(2025),);
                           if(getValue != null) {
-                              print(getValue.toIso8601String());
+                            final format = DateFormat.yMd();
+                            ref
+                            .read(dateProvider.notifier)
+                            .update((state) => format.format(getValue));
                           } 
                             },
                       ),
@@ -109,15 +113,49 @@ class AddTask extends ConsumerWidget {
 
                       DateTimeWidget(
                         titleText: "Time",
-                        valueText: "HH/MM",
+                        valueText: ref.watch(timeProvider),
                         icon: CupertinoIcons.clock,
-                        onTapPicker: () async {showTimePicker(context: context, initialTime: TimeOfDay.now());},
+                        onTapPicker: () async {
+                          final getTime = await showTimePicker(context: context, initialTime: TimeOfDay.now());
+                          if (getTime != null) {
+                            ref
+                            .read(timeProvider.notifier)
+                            .update((state) => getTime.format(context));
+                          }
+                        },
                       ),
                     ],
                   ),
-
-                  const SizedBox(height: 50),
-                  MyButton(onTap: () {}, text: "Add Task"),
+                  
+                  const Gap(225),
+                  //buttons
+                  Row(
+                    children: [
+                      Expanded(child: 
+                        ElevatedButton(onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.white,
+                          foregroundColor: Colors.black,
+                          elevation: 0,
+                          fixedSize: const Size.fromHeight(50),
+                          shape: RoundedRectangleBorder(  borderRadius: BorderRadius.circular(12)),
+                          side: const BorderSide(color: Color.fromRGBO(178, 200, 186, 1), width: 3)
+                        ),
+                        child: const Text("Cancel"),)),
+                      const Gap(20),
+                      Expanded(child: 
+                        ElevatedButton(onPressed: () => Navigator.pop(context),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color.fromRGBO(178, 200, 186, 1),
+                          foregroundColor: Colors.black,
+                          elevation: 0,
+                          fixedSize: const Size.fromHeight(50),
+                          shape: RoundedRectangleBorder(  borderRadius: BorderRadius.circular(12)),
+                        ),
+                        child: const Text ('Add'),)
+                      )
+                    ],
+                  )
 
                 ],
               
@@ -144,7 +182,7 @@ class AddTask extends ConsumerWidget {
             borderSide: const BorderSide(color: Colors.white),
             borderRadius: BorderRadius.circular(12),
           ),
-          fillColor: const Color.fromARGB(255, 243, 243, 243),
+          fillColor: Colors.white,
           filled: true,
           hintText:'Task description',
           hintStyle: TextStyle(color: Colors.grey[500]),
@@ -164,7 +202,7 @@ class AddTask extends ConsumerWidget {
               borderSide: const BorderSide(color: Colors.white),
               borderRadius: BorderRadius.circular(12),
             ),
-            fillColor: const Color.fromARGB(255, 243, 243, 243),
+            fillColor: Colors.white,
             filled: true,
             hintText:'Task name',
             hintStyle: TextStyle(color: Colors.grey[500]),

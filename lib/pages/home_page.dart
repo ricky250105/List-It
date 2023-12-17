@@ -155,16 +155,18 @@ void signUserOut() {
                       ElevatedButton(onPressed: () {
                         Navigator.push(context, 
                           MaterialPageRoute(builder: (context) {
-                            return AddTask();
+                            return const AddTask();
                       }));
                       }, 
                       
-                      style: ElevatedButton.styleFrom(backgroundColor:  const Color(0xffa8aea6),    
+                      style: ElevatedButton.styleFrom(backgroundColor:  const Color.fromRGBO(178, 200, 186, 1),    
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),),),
-                      
+                        borderRadius: BorderRadius.circular(10.0),),
+                      fixedSize: const Size.fromHeight(50),  
+                      ),
 
-                      child: const Center(child: Text(' + add task', style: TextStyle(color: Color(0xff000000), fontSize: 16)))),
+                      child: const Center(child: Text(' + add task', 
+                      style: TextStyle(color: Color(0xff000000), fontSize: 16, )))),
                       
                     ],
                   ),
