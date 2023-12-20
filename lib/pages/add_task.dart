@@ -3,15 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
+import 'package:list_it/Components/description.dart';
 import 'package:list_it/Components/radio_widget.dart';
 import 'package:list_it/Components/date_time_widget.dart';
+import 'package:list_it/Components/taskname.dart';
+import 'package:list_it/model/todo_model.dart';
 import 'package:list_it/provider/date_time_provider.dart';
 import 'package:list_it/provider/radio_provider.dart';
+import 'package:list_it/provider/service_provider.dart';
 
 
 class AddTask extends ConsumerWidget {
-  const AddTask ({super.key});
+  AddTask ({super.key});
   
+  final titleController = TextEditingController();
+  final descriptionController = TextEditingController();
+
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -42,12 +49,16 @@ class AddTask extends ConsumerWidget {
                   const SizedBox(height: 25),
                   label('Task name'),
                   const SizedBox(height: 12),
-                  taskname(),
+                  Taskname(
+                    txtController: titleController,
+                  ),
 
                   const SizedBox(height: 25),
                   label('Task Description'),
                   const SizedBox(height: 12),
-                  description(),
+                  Description(
+                    txtController: descriptionController,
+                  ),
 
                   const SizedBox(height: 25),
                   label ('Category'),
@@ -131,7 +142,7 @@ class AddTask extends ConsumerWidget {
                   Row(
                     children: [
                       Expanded(child: 
-                        ElevatedButton(onPressed: () {},
+                        ElevatedButton(onPressed: () => Navigator.pop(context),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.white,
                           foregroundColor: Colors.black,
@@ -143,7 +154,38 @@ class AddTask extends ConsumerWidget {
                         child: const Text("Cancel"),)),
                       const Gap(20),
                       Expanded(child: 
-                        ElevatedButton(onPressed: () => Navigator.pop(context),
+                        ElevatedButton(onPressed: () {
+                          final getRadioValue = ref.read(radioProvider);
+                          String category = '';
+                          
+                          switch (getRadioValue) {
+                            case 1:
+                              category = 'personal';
+                              break;
+                            
+                            case 2:
+                              category = 'work';
+                              break;
+
+                            case 3:
+                              category = 'others';
+                              break;
+                          }
+                          ref.read(serviceProvider).addNewTask(
+                             TodoModel(
+                               titleTask: titleController.text, 
+                               description: descriptionController.text, 
+                               category: category, 
+                               dateTask: ref.read(dateProvider), 
+                               timeTask: ref.read(timeProvider),
+                               isDone: false,
+                             )
+                           );
+                           titleController.clear();
+                           descriptionController.clear();
+                           ref.read(radioProvider.notifier).update((state) => 0);
+                           Navigator.pop(context);
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color.fromRGBO(178, 200, 186, 1),
                           foregroundColor: Colors.black,
@@ -162,48 +204,6 @@ class AddTask extends ConsumerWidget {
         )
       )
     );
-  }
-
-  Widget description() {
-    return  Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 0.0),
-      child: TextField(
-        maxLines: 5,
-        decoration: InputDecoration(
-          enabledBorder:  OutlineInputBorder(
-            borderSide: const BorderSide(color: Colors.black),
-            borderRadius: BorderRadius.circular(12),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color: Colors.white),
-            borderRadius: BorderRadius.circular(12),
-          ),
-          fillColor: Colors.white,
-          filled: true,
-          hintText:'Task description',
-          hintStyle: TextStyle(color: Colors.grey[500]),
-          )));
-  }
-
-  Widget taskname() {
-    return  Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 0.0),
-      child: TextField(
-          decoration: InputDecoration(
-            enabledBorder:  OutlineInputBorder(
-              borderSide: const BorderSide(color: Colors.black),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: const BorderSide(color: Colors.white),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            fillColor: Colors.white,
-            filled: true,
-            hintText:'Task name',
-            hintStyle: TextStyle(color: Colors.grey[500]),
-            )),
-      );
   }
 
   Widget label(String label) {

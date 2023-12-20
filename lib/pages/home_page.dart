@@ -1,26 +1,27 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gap/gap.dart';
+import 'package:list_it/Components/to_do_card_widget.dart';
 import 'package:list_it/pages/about_page.dart';
 import 'package:list_it/pages/add_task.dart';
 import 'package:list_it/pages/terms_and_condition.dart';
+import 'package:list_it/provider/service_provider.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage ({super.key});
+class HomePage extends ConsumerWidget {
+   HomePage ({super.key});
 
-
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
 
 final user = FirebaseAuth.instance.currentUser!;
+
 //sign user out method
 void signUserOut() {
   FirebaseAuth.instance.signOut();
 }
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final toDoData = ref.watch(fetchStreamProvider);
     return Scaffold(
       backgroundColor: const Color(0xFFEBF3E8),
       appBar: AppBar(
@@ -153,7 +154,7 @@ void signUserOut() {
                       ElevatedButton(onPressed: () {
                         Navigator.push(context, 
                           MaterialPageRoute(builder: (context) {
-                            return const AddTask();
+                            return AddTask();
                       }));
                       }, 
                       
@@ -165,9 +166,15 @@ void signUserOut() {
 
                       child: const Center(child: Text(' + add task', 
                       style: TextStyle(color: Color(0xff000000), fontSize: 16, )))),
-                      
                     ],
                   ),
+                  const Gap(20),
+                  ListView.builder(
+                    itemCount: toDoData.value!.length,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) => ToDoCardWidget(getIndex: index,),
+                  )
+
 
                 ],
               ),
