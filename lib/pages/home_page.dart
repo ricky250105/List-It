@@ -5,6 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:list_it/Components/to_do_card_widget.dart';
 import 'package:list_it/pages/about_page.dart';
 import 'package:list_it/pages/add_task.dart';
+import 'package:list_it/pages/profile_settings.dart';
 import 'package:list_it/pages/terms_and_condition.dart';
 import 'package:list_it/provider/service_provider.dart';
 
@@ -48,7 +49,11 @@ class HomePage extends ConsumerWidget {
               // user settings
               const SizedBox(height: 70),
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return const ProfileSettingPage();
+                  }));
+                },
                 child: const Row(
                   children: [
                     Icon(Icons.settings),

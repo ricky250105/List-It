@@ -6,6 +6,7 @@ class ToDoCardWidget extends StatelessWidget {
   const ToDoCardWidget({super.key, required this.todo});
 
   final TodoModel todo;
+  
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +41,7 @@ class ToDoCardWidget extends StatelessWidget {
                   trailing: Transform.scale(
                     scale: 1.5,
                     child: Checkbox(
-                      activeColor: Colors.blue,
+                      activeColor:Colors.blue ,
                       value: todo.isDone,
                       onChanged: (value) => print(value),
                     ),
@@ -54,9 +55,9 @@ class ToDoCardWidget extends StatelessWidget {
                       color: Colors.grey.shade300,
                     ),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(todo.category),
-                        const Gap(12),
+                        Text(todo.dateTask),
                         Text(todo.timeTask)
                       ],
                     )
