@@ -8,6 +8,7 @@ import 'package:list_it/pages/add_task.dart';
 import 'package:list_it/pages/profile_settings.dart';
 import 'package:list_it/pages/terms_and_condition.dart';
 import 'package:list_it/provider/service_provider.dart';
+import 'package:list_it/services/user_service.dart';
 
 class HomePage extends ConsumerWidget {
   HomePage({super.key});
@@ -19,15 +20,30 @@ class HomePage extends ConsumerWidget {
     FirebaseAuth.instance.signOut();
   }
 
+  String username = '';
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final todoData = ref.watch(fetchStreamProvider);
+    final userDetails = ref.watch(userDetailsProvider);
     return Scaffold(
         backgroundColor: const Color(0xFFEBF3E8),
         appBar: AppBar(
-            title: Text(
-              "Welcome, ${user.email!}!",
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+            title: userDetails.when(
+              data: (details) {
+                username = details.username;
+                return Text(
+                  "Welcome, ${details.username}!",
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.w600),
+                );
+              },
+              error: (error, stackTrace) => Center(
+                child: Text(error.toString()),
+              ),
+              loading: () => const Center(
+                child: CircularProgressIndicator(),
+              ),
             ),
             backgroundColor: const Color(0xFFd3dad0),
             elevation: 0,
@@ -43,8 +59,9 @@ class HomePage extends ConsumerWidget {
           child: ListView(
             children: [
               const SizedBox(height: 70),
-              const Icon(Icons.check_box, size: 64),
-              const Center(child: Text("username")),
+              const CircleAvatar(radius: 60),
+              const Gap(10),
+              Center(child: Text(username)),
 
               // user settings
               const SizedBox(height: 70),
@@ -190,7 +207,7 @@ class HomePage extends ConsumerWidget {
                       child: todoData.when(
                           data: (todoList) {
                             return ListView.builder(
-                              itemCount: todoList.length,
+                              itemCount: todoList.reversed.toList().length,
                               shrinkWrap: true,
                               itemBuilder: (context, index) => Padding(
                                 padding: const EdgeInsets.all(8.0),
