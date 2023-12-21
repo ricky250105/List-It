@@ -17,7 +17,7 @@ final int getIndex;
     final todoData = ref.watch(fetchStreamProvider);
 
     return todoData.when(
-      data: (toDoData) => 
+      data: (todoData) => 
       Container(
       width: double.infinity,
       height: 120,
@@ -45,13 +45,13 @@ final int getIndex;
           children: [
             ListTile(
               contentPadding: EdgeInsets.zero,
-              title:  Text(toDoData[getIndex].titleTask),
-              subtitle:  Text(toDoData[getIndex].description),
+              title:  Text(todoData[getIndex].titleTask),
+              subtitle:  Text(todoData[getIndex].description),
               trailing: Transform.scale(
                 scale: 1.5,
                 child: Checkbox(
                   activeColor: Colors.blue,
-                  value: toDoData[getIndex].isDone, 
+                  value: todoData[getIndex].isDone, 
                   onChanged: (value) => print(value),),
               ),
             ),
@@ -65,7 +65,7 @@ final int getIndex;
                 children: [
                   Text('something'),
                   Gap(12),
-                  Text (toDoData[getIndex].timeTask)
+                  Text (todoData[getIndex].timeTask)
                 ],
               )
             ],

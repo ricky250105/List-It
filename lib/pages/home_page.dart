@@ -21,7 +21,7 @@ void signUserOut() {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final toDoData = ref.watch(fetchStreamProvider);
+    final todoData = ref.watch(fetchStreamProvider);
     return Scaffold(
       backgroundColor: const Color(0xFFEBF3E8),
       appBar: AppBar(
@@ -170,7 +170,7 @@ void signUserOut() {
                   ),
                   const Gap(20),
                   ListView.builder(
-                    itemCount: toDoData.value!.length,
+                    itemCount: todoData.value!.length,
                     shrinkWrap: true,
                     itemBuilder: (context, index) => ToDoCardWidget(getIndex: index,),
                   )
