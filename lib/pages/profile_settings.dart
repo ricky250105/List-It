@@ -39,6 +39,7 @@ class _ProfileSettingPageState extends State<ProfileSettingPage> {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
     Stack(
       children: [
