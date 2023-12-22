@@ -6,7 +6,7 @@ import 'package:list_it/model/todo_model.dart';
 import 'package:list_it/provider/service_provider.dart';
 
 class ToDoCardWidget extends ConsumerWidget {
-  ToDoCardWidget({super.key, required this.todo});
+  const ToDoCardWidget({super.key, required this.todo});
 
   final TodoModel todo;
 
@@ -14,10 +14,15 @@ class ToDoCardWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Slidable(
       endActionPane: ActionPane(motion: const StretchMotion(), children: [
-        SlidableAction(onPressed: ref.read(serviceProvider).deleteTodo() ,icon: Icons.delete, backgroundColor: Colors.red,)]),
+        SlidableAction(
+          onPressed: (c) => ref.read(serviceProvider).deleteTodo(todo),
+          icon: Icons.delete,
+          backgroundColor: Colors.red,
+        )
+      ]),
       child: Container(
         width: double.infinity,
-        height: 130,
+        height: todo.description.length > 80 ? 200 : 130,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
@@ -34,49 +39,47 @@ class ToDoCardWidget extends ConsumerWidget {
             ),
             Expanded(
                 child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ListTile(
-                    contentPadding: EdgeInsets.zero,
-                    title: Text(
-                      todo.titleTask,
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 18),
-                    ),
-                    subtitle: Text(todo.description),
-                    trailing: Transform.scale(
-                      scale: 1.5,
-                      child: Checkbox(
-                        activeColor: Colors.green,
-                        value: todo.isDone,
-                        onChanged: (value) => ref
-                            .read(serviceProvider)
-                            .updateTodo(todo.copyWith(isDone: value)),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Divider(
-                        thickness: 1.5,
-                        color: Colors.grey.shade300,
-                      ),
-                        Text(todo.category, style: TextStyle(fontSize: 13),),
-                        SizedBox(height: 2,),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [Text(todo.dateTask), Text(todo.timeTask)],
-                      )
-                    ],
-                  ))
-                ],
-              ),
-            ))
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ListTile(
+                          contentPadding: EdgeInsets.zero,
+                          title: Text(
+                            todo.titleTask,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 18),
+                          ),
+                          subtitle: Text(todo.description),
+                          trailing: Transform.scale(
+                            scale: 1.5,
+                            child: Checkbox(
+                              activeColor: Colors.green,
+                              value: todo.isDone,
+                              onChanged: (value) => ref
+                                  .read(serviceProvider)
+                                  .updateTodo(todo.copyWith(isDone: value)),
+                            ),
+                          ),
+                        ),
+                        Divider(
+                          thickness: 1.5,
+                          color: Colors.grey.shade300,
+                        ),
+                        Text(
+                          todo.category,
+                          style: const TextStyle(fontSize: 13),
+                        ),
+                        const SizedBox(
+                          height: 2,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [Text(todo.dateTask), Text(todo.timeTask)],
+                        )
+                      ],
+                    )))
           ],
         ),
       ),

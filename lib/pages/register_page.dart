@@ -67,8 +67,9 @@ class _RegisterPageState extends State<RegisterPage> {
     await FirebaseFirestore.instance.collection('users').doc(userId).set({
       'username': username,
       'email': email,
+      'profileImage': ''
     });
-    print('Users');
+   
   }
 
 //error message to user

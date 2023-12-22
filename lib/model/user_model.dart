@@ -4,18 +4,22 @@ import 'dart:convert';
 class UserModel {
   final String username;
   final String email;
+  final String profileImage;
   UserModel({
     required this.username,
     required this.email,
+    required this.profileImage,
   });
 
   UserModel copyWith({
     String? username,
     String? email,
+    String? profileImage,
   }) {
     return UserModel(
       username: username ?? this.username,
       email: email ?? this.email,
+      profileImage: profileImage ?? this.profileImage,
     );
   }
 
@@ -23,6 +27,7 @@ class UserModel {
     return <String, dynamic>{
       'username': username,
       'email': email,
+      'profileImage': profileImage,
     };
   }
 
@@ -30,6 +35,7 @@ class UserModel {
     return UserModel(
       username: map['username'] as String,
       email: map['email'] as String,
+      profileImage: map['profileImage'] as String,
     );
   }
 
@@ -40,9 +46,17 @@ class UserModel {
   
     return 
       other.username == username &&
-      other.email == email;
+      other.email == email &&
+      other.profileImage == profileImage;
   }
 
   @override
-  int get hashCode => username.hashCode ^ email.hashCode;
+  int get hashCode => username.hashCode ^ email.hashCode ^ profileImage.hashCode;
+
+  String toJson() => json.encode(toMap());
+
+  factory UserModel.fromJson(String source) => UserModel.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  @override
+  String toString() => 'UserModel(username: $username, email: $email, profileImage: $profileImage)';
 }
