@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
     return  ProviderScope(
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: AuthPage(),
+        home: const AuthPage(),
         theme: ThemeData(primarySwatch: Colors.blue),
       ),
     );

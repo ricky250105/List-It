@@ -5,10 +5,13 @@ import 'package:gap/gap.dart';
 import 'package:list_it/Components/to_do_card_widget.dart';
 import 'package:list_it/pages/about_page.dart';
 import 'package:list_it/pages/add_task.dart';
+import 'package:list_it/pages/faq_page.dart';
+import 'package:list_it/pages/help_page.dart';
 import 'package:list_it/pages/profile_settings.dart';
 import 'package:list_it/pages/terms_and_condition.dart';
 import 'package:list_it/provider/service_provider.dart';
 import 'package:list_it/services/user_service.dart';
+import 'package:list_it/services/todo_service.dart';
 
 class HomePage extends ConsumerWidget {
   HomePage({super.key});
@@ -24,6 +27,7 @@ class HomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    var todayTime = DateTime.now();
     final todoData = ref.watch(fetchStreamProvider);
     final userDetails = ref.watch(userDetailsProvider);
     return Scaffold(
@@ -45,15 +49,10 @@ class HomePage extends ConsumerWidget {
                 child: CircularProgressIndicator(),
               ),
             ),
-            backgroundColor: const Color(0xFFd3dad0),
-            elevation: 0,
-            actions: [
-              IconButton(onPressed: () {}, icon: const Icon(Icons.search)),
-              IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.notifications_active)),
-            ]),
+            backgroundColor: const Color.fromRGBO(134, 167, 137, 1),
+            elevation: 0,),
         drawer: Drawer(
+          backgroundColor: const Color(0xFFd3dad0),
             child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: ListView(
@@ -114,7 +113,11 @@ class HomePage extends ConsumerWidget {
               ),
               const SizedBox(height: 15),
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return const FaqPage();
+                  }));
+                },
                 child: const Row(
                   children: [
                     Icon(Icons.question_mark),
@@ -126,7 +129,11 @@ class HomePage extends ConsumerWidget {
 
               const SizedBox(height: 15),
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return const HelpPage();
+                  }));
+                },
                 child: const Row(
                   children: [
                     Icon(Icons.question_mark),
@@ -168,14 +175,14 @@ class HomePage extends ConsumerWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Column(
+                      Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Today, ",
+                          const Text("Today, ",
                               style: TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.w600)),
-                          Text('14th December, 2023',
-                              style: TextStyle(
+                          Text('${todayTime.day}/${todayTime.month}/${todayTime.year}',
+                              style: const TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.w600))
                         ],
                       ),
