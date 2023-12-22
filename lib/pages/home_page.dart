@@ -152,77 +152,75 @@ class HomePage extends ConsumerWidget {
             ],
           ),
         )),
-        body: SingleChildScrollView(
-          child: Container(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            decoration: const BoxDecoration(
-              color: Color.fromRGBO(235, 243, 232, 1),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 25),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Today, ",
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.w600)),
-                          Text('14th December, 2023',
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.w600))
-                        ],
-                      ),
-                      ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
-                              return AddTask();
-                            }));
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                const Color.fromRGBO(178, 200, 186, 1),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            fixedSize: const Size.fromHeight(50),
+        body: Container(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          decoration: const BoxDecoration(
+            color: Color.fromRGBO(235, 243, 232, 1),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 25),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 25),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Today, ",
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w600)),
+                        Text('14th December, 2023',
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w600))
+                      ],
+                    ),
+                    ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                            return AddTask();
+                          }));
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              const Color.fromRGBO(178, 200, 186, 1),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
                           ),
-                          child: const Center(
-                              child: Text(' + add task',
-                                  style: TextStyle(
-                                    color: Color(0xff000000),
-                                    fontSize: 16,
-                                  )))),
-                    ],
-                  ),
-                  const Gap(20),
-                  Expanded(
-                      child: todoData.when(
-                          data: (todoList) {
-                            return ListView.builder(
-                              itemCount: todoList.reversed.toList().length,
-                              shrinkWrap: true,
-                              itemBuilder: (context, index) => Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: ToDoCardWidget(todo: todoList[index]),
-                              ),
-                            );
-                          },
-                          error: (error, stackTrace) => Center(
-                                child: Text(error.toString()),
-                              ),
-                          loading: () => const Center(
-                                child: CircularProgressIndicator(),
-                              )))
-                ],
-              ),
+                          fixedSize: const Size.fromHeight(50),
+                        ),
+                        child: const Center(
+                            child: Text(' + add task',
+                                style: TextStyle(
+                                  color: Color(0xff000000),
+                                  fontSize: 16,
+                                )))),
+                  ],
+                ),
+                const Gap(20),
+                Expanded(
+                    child: todoData.when(
+                        data: (todoList) {
+                          return ListView.builder(
+                            itemCount: todoList.reversed.toList().length,
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) => Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: ToDoCardWidget(todo: todoList[index]),
+                            ),
+                          );
+                        },
+                        error: (error, stackTrace) => Center(
+                              child: Text(error.toString()),
+                            ),
+                        loading: () => const Center(
+                              child: CircularProgressIndicator(),
+                            ))),
+              ],
             ),
           ),
         ));

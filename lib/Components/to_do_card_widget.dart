@@ -13,7 +13,6 @@ class ToDoCardWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       width: double.infinity,
-      height: 120,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
@@ -21,6 +20,7 @@ class ToDoCardWidget extends ConsumerWidget {
       child: Row(
         children: [
           Container(
+            height: 170,
             decoration: BoxDecoration(
                 color: todo.isDone ? Colors.green : Colors.red,
                 borderRadius: const BorderRadius.only(
@@ -28,7 +28,7 @@ class ToDoCardWidget extends ConsumerWidget {
                     bottomLeft: Radius.circular(12))),
             width: 20,
           ),
-          Expanded(
+          Flexible(
               child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: Column(
@@ -54,19 +54,14 @@ class ToDoCardWidget extends ConsumerWidget {
                     ),
                   ),
                 ),
-                Expanded(
-                    child: Column(
-                  children: [
-                    Divider(
-                      thickness: 1.5,
-                      color: Colors.grey.shade300,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [Text(todo.dateTask), Text(todo.timeTask)],
-                    )
-                  ],
-                ))
+                Divider(
+                  thickness: 1.5,
+                  color: Colors.grey.shade300,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [Text(todo.dateTask), Text(todo.timeTask)],
+                )
               ],
             ),
           ))
